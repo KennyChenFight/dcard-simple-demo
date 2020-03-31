@@ -54,11 +54,11 @@ docker-compose up -d
 
 + dcard-simple-demo
 
-  這個Golang的Backend Service。
+  此為Golang的Backend Service。
 
   可打開URL：localhost:8080/api-docs，利用Swagger框架打造RESTful API，可透過該框架直接測試API。
 
-### 如何架設並運行此專案(針對Ubuntu)
+### 如何從原始碼架設並運行此專案(針對Ubuntu)
 
 #### Go 1.13+
 
@@ -258,5 +258,5 @@ Lua腳本執行完會回傳一個陣列，長度為二，第一格資料是使�
 
 ### 總結
 
-本專案是將**/v1/pairs/**(POST 抽卡配對使用者)、**/v1/pairs/**(GET 取得配對對象)前面都加了IP Limit檢查middleware，因為我覺得這兩隻API是高流量的，因此在運行的時候會看到Redis資料裡面會有這兩隻API所對應的使用者拜訪次數。
+本專案是將<b>/v1/pairs/</b>(POST 抽卡配對使用者)、<b>/v1/pairs/</b>(GET 取得配對對象)前面都加了IP Limit檢查middleware，因為我覺得這兩隻API是高流量的，因此在運行的時候會看到Redis資料裡面會有這兩隻API所對應的使用者拜訪次數。
 
