@@ -1,0 +1,61 @@
+version: '3'
+services:
+  postgres:
+    container_name: 'postgres'
+    image: postgres
+    environment:
+      POSTGRES_PASSWORD: root
+    volumes:
+      - ./docker-pg-init-scripts:/docker-entrypoint-initdb.d
+# if you want to save pg data
+#      - pgdata:/var/lib/postgresql/data/
+    ports:
+      - "5432:5432"
+  postgres-client:
+    container_name: 'postgres-client'
+    image: dpage/pgadmin4
+    environment:
+      PGADMIN_DEFAULT_EMAIL: "dcard@example.com"
+      PGADMIN_DEFAULT_PASSWORD: "dcard"
+    ports:
+      - "16543:80"
+    depends_on:
+      - postgres
+  redis:
+    container_name: 'redis'
+    image: redis
+    command: redis-server --requirepass root
+    restart: always
+# if you want to save redis data
+#    volumes:
+#      - ./redis-data:/data
+    ports:
+      - "6379:6379"
+  redis-client:
+    container_name: 'redis-client'
+    image: erikdubbelboer/phpredisadmin
+    environment:
+      - ADMIN_USER=admin
+      - ADMIN_PASS=admin
+      - REDIS_1_HOST=redis
+      - REDIS_1_PORT=6379
+      - REDIS_1_AUTH=root
+    restart: always
+    depends_on:
+      - redis
+    ports:
+      - "8081:80"
+  backend:
+    image: 'dcard-simple-demo'
+    container_name: 'dcard-simple-demo'
+    build: ./
+    # replace original .env file defined value
+    environment:
+      DB_HOST: postgres
+      REDIS_ENDPOINT: redis:6379
+    restart: always
+    ports:
+    - "8080:8080"
+    depends_on:
+      - postgres
+      - redis

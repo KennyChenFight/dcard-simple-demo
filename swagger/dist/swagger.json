@@ -1,0 +1,268 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "description": "This is a WorkOrder API Server",
+    "version": "1.0.0",
+    "title": "Swagger WorkOrder API"
+  },
+  "basePath": "/v1/",
+  "tags": [
+    {
+      "name": "Auth",
+      "description": "Auth API"
+    },
+    {
+      "name": "User",
+      "description": "User API"
+    },
+    {
+      "name": "Pair",
+      "description": "Pair API"
+    },
+  ],
+  "schemes": [
+    "http"
+  ],
+  "paths": {
+    "/auth/": {
+      "post": {
+        "tags": [
+          "Auth"
+        ],
+        "summary": "取得有效的jwt token",
+        "description": "透過驗證使用者的信箱及密碼，成功才會給予有效的jwt token",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "description": "使用者的email、password",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/Auth"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "成功拿到token，token的值會放在header裡面",
+            "headers": {
+              "Authorization": {
+                "type": "string"
+              }
+            }
+          },
+          "400": {
+            "description": "invalid request body value"
+          },
+          "401": {
+            "description": "代表使用者信箱或密碼其中一個錯誤"
+          },
+          "500": {
+            "description": "代表Backend服務出現錯誤"
+          }
+        }
+      }
+    },
+    "/users/": {
+      "post": {
+        "tags": [
+          "User"
+        ],
+        "summary": "建立使用者",
+        "description": "建立使用者",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "description": "需要給予User的email、password、name",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/User"
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "成功建立使用者",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "id": {
+                  "type": "string",
+                  "description": "使用者 id"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "invalid request body value"
+          }
+        }
+      }
+    },
+    "/pairs/": {
+      "get": {
+        "tags": [
+          "Pair"
+        ],
+        "summary": "取得雙方配對使用者id",
+        "description": "取得雙方配對使用者id",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "authorization",
+            "in": "header",
+            "description": "jwt token",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "取得雙方配對使用者id",
+            "schema": {
+              "$ref": "#/definitions/Pair"
+            },
+            "headers": {
+              "X-RateLimit-Remaining": {
+                "type": "integer",
+                "description": "可訪問該API的剩餘次數"
+              },
+              "X-RateLimit-Reset": {
+                "type": "string",
+                "format": "date-format",
+                "description": "到期時間"
+              }
+            }
+          },
+          "401": {
+            "description": "沒有帶token 或是 token is invalid"
+          },
+          "404": {
+            "description": "找不到，代表該使用者還沒建立配對"
+          },
+          "500": {
+            "description": "代表Backend服務出現錯誤"
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Pair"
+        ],
+        "summary": "為該使用者建立配對",
+        "description": "為該使用者建立配對",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "authorization",
+            "in": "header",
+            "description": "jwt token",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "成功與其他人使用者建立配對",
+            "schema": {
+              "$ref": "#/definitions/Pair"
+            },
+            "headers": {
+              "X-RateLimit-Remaining": {
+                "type": "integer",
+                "description": "可訪問該API的剩餘次數"
+              },
+              "X-RateLimit-Reset": {
+                "type": "string",
+                "format": "date-format",
+                "description": "到期時間"
+              }
+            }
+          },
+          "401": {
+            "description": "沒有帶token 或是 token is invalid"
+          },
+          "403": {
+            "description": "代表該使用者已經配對過了,不能重複配對"
+          },
+          "500": {
+            "description": "代表Backend服務出現錯誤"
+          }
+        }
+      }
+    }
+  },
+  "definitions": {
+    "Auth": {
+      "type": "object",
+      "required": [
+        "email",
+        "password"
+      ],
+      "properties": {
+        "email": {
+          "type": "string",
+          "example": "kenny@example.com"
+        },
+        "password": {
+          "type": "string",
+          "example": "0000"
+        }
+      }
+    },
+    "User": {
+      "type": "object",
+      "required": [
+        "email",
+        "password",
+        "name"
+      ],
+      "properties": {
+        "id": {
+          "type": "string",
+          "readOnly": true
+        },
+        "email": {
+          "type": "string"
+        },
+        "password": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        }
+      }
+    },
+    "Pair": {
+      "type": "object",
+      "required": [
+        "userIdOne",
+        "userIdTwo"
+      ],
+      "properties": {
+        "userIdOne": {
+          "type": "string",
+          "description": "原使用者"
+        },
+        "userIdTwo": {
+          "type": "string",
+          "description": "原使用者的配對方"
+        }
+      }
+    }
+  }
+}
