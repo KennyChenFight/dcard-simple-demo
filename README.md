@@ -243,7 +243,7 @@ else
 end
 ```
 
-**key**、**now**、**ipLimit**、**period**，為外部參數，由Golang程式丟進去，如此可以客製化，而不是寫死在Lua腳本，特別注意**key**是由**API URL + API Method + IP位址**所組成的。
+**key**、**now**、**ipLimit**、**period**，為外部參數，由Golang程式丟進去，如此可以客製化，而不是寫死在Lua腳本，特別注意**key**是由**API URL + API Method + IP位址 + userId**所組成的。
 
 講解該兩種if判斷含意：
 
