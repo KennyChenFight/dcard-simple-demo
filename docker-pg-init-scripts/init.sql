@@ -67,6 +67,8 @@ ALTER TABLE pairs ADD CONSTRAINT pairs_fk2 FOREIGN KEY (user_id_two) REFERENCES 
     grant_table_privilege
 */
 /*for normal tables */
+ALTER TABLE users OWNER TO dcard_admin;
+ALTER TABLE pairs OWNER TO dcard_admin;
 GRANT SELECT, INSERT, UPDATE, DELETE, REFERENCES ON TABLE users to dcard_user;
 GRANT SELECT, INSERT, UPDATE, DELETE, REFERENCES ON TABLE pairs to dcard_user;
 GRANT SELECT ON TABLE users to dcard_readonly;
