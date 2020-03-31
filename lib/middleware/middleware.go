@@ -17,7 +17,7 @@ import (
 const (
 	IPLimitPeriod     = 3600
 	IPLimitTimeFormat = "2006-01-02 15:04:05"
-	IPLimitMaximum  = 1000
+	IPLimitMaximum    = 1000
 )
 
 var (
@@ -123,8 +123,9 @@ func TX() gin.HandlerFunc {
 // use redis to verify.
 func IPLimitIntercept() gin.HandlerFunc {
 	return func(c *gin.Context) {
+		userId := c.GetString(constant.UserId)
 		now := time.Now().Unix()
-		key := c.Request.URL.Path + "-" + c.Request.Method + "-" + c.ClientIP()
+		key := c.Request.URL.Path + "-" + c.Request.Method + "-" + c.ClientIP() + "-" + userId
 		script := redis.NewScript(lua.SCRIPT)
 		args := []interface{}{now, IPLimitMaximum, IPLimitPeriod}
 
