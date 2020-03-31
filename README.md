@@ -25,6 +25,7 @@ Dcard 每天午夜都有大量使用者湧入抽卡，為了不讓伺服器過�
 
 ```bash
 # 透過 git clone 專案到主機任意路徑下
+git clone https://github.com/KennyChenFight/dcard-simple-demo.git
 ```
 
 #### 運行專案
@@ -88,6 +89,7 @@ Note：Golang開發慣例是在GOPATH路徑下，會有三個資料夾需要創�
 
 ```bash
 # 透過 git clone 專案到GOPATH/src 路徑下
+git clone https://github.com/KennyChenFight/dcard-simple-demo.git
 ```
 
 #### PostgreSQL  10.12+
