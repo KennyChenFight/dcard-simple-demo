@@ -30,7 +30,7 @@ services:
 #    volumes:
 #      - ./redis-data:/data
     ports:
-      - "6379:6379"
+      - "6380:6379"
   redis-client:
     container_name: 'redis-client'
     image: erikdubbelboer/phpredisadmin
