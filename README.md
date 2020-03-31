@@ -40,7 +40,7 @@ docker-compose up -d
 
 + postgres
 
-  裡面預設會自動放入一些測試資料，可參考[測試資料](schema/testing_data.md)
+  裡面預設會自動放入一些測試資料，可參考[測試資料](schema/testing_data.sql)
 
 + postgres-client
 
