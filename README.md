@@ -219,7 +219,7 @@ local key = KEYS[1]
 local now = tonumber(ARGV[1])
 local ipLimit = tonumber(ARGV[2])
 local period = tonumber(ARGV[3])
-local userInfo = redis.call('HGETALL', ip)
+local userInfo = redis.call('HGETALL', key)
 local reset = tonumber(userInfo[4])
 local result = {}
 if #userInfo == 0 or reset < now then
